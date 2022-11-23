@@ -75,12 +75,14 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #   include <inet.h>
 #  else
 #   include <sys/socket.h>
+#ifndef __vita__
 #   ifndef NO_SYS_UN_H
 #    include <sys/un.h>
 #    ifndef UNIX_PATH_MAX
 #     define UNIX_PATH_MAX sizeof(((struct sockaddr_un *)NULL)->sun_path)
 #    endif
 #   endif
+#endif
 #   ifdef FILIO_H
 #    include <sys/filio.h> /* FIONBIO in some SVR4, e.g. unixware, solaris */
 #   endif
@@ -94,7 +96,9 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  endif
 
 #  ifndef VMS
+#ifndef __vita__
 #   include <sys/ioctl.h>
+#endif
 #  else
 #   if !defined(TCPIP_TYPE_SOCKETSHR) && defined(__VMS_VER) && (__VMS_VER > 70000000)
      /* ioctl is only in VMS > 7.0 and when socketshr is not used */

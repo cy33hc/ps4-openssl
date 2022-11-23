@@ -807,7 +807,7 @@ int BIO_lookup_ex(const char *host, const char *service, int lookup_type,
             he = gethostbyname(host);
 
             if (he == NULL) {
-#ifndef OPENSSL_SYS_WINDOWS
+#if !defined(OPENSSL_SYS_WINDOWS) && !defined(__vita__)
                 /*
                  * This might be misleading, because h_errno is used as if
                  * it was errno. To minimize mixup add 1000. Underlying
