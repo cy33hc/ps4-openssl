@@ -160,6 +160,11 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  endif
 #  define ioctlsocket(a,b,c)      ioctl(a,b,c)
 #  define closesocket(s)          close(s)
+elif defined(__vita__)
+#  define ioctlsocket(a,b,c)      setsockopt((a),SOL_SOCKET,(b),(c),sizeof(*(c)))
+#  define closesocket(s)          close(s)
+#  define readsocket(s,b,n)       recv((s),(char*)(b),(n),0)
+#  define writesocket(s,b,n)      send((s),(char*)(b),(n),0)
 # else
 #  define ioctlsocket(a,b,c)      ioctl(a,b,c)
 #  define closesocket(s)          close(s)
