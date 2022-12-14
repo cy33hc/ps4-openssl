@@ -11,7 +11,7 @@
 #include <openssl/pkcs7.h>
 #include <openssl/bio.h>
 
-#if !defined(OPENSSL_SYS_VXWORKS)
+#if !defined(OPENSSL_SYS_VXWORKS) && !defined(__vita__)
 # include <memory.h>
 #endif
 #include <stdio.h>

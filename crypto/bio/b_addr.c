@@ -197,7 +197,7 @@ static int addr_strings(const BIO_ADDR *ap, int numeric,
         return 0;
 
     if (1) {
-#ifdef AI_PASSIVE
+#if defined(AI_PASSIVE) && !defined(__vita__)
         int ret = 0;
         char host[NI_MAXHOST] = "", serv[NI_MAXSERV] = "";
         int flags = 0;
@@ -808,7 +808,7 @@ int BIO_lookup_ex(const char *host, const char *service, int lookup_type,
                  * anyway [above getaddrinfo/gai_strerror is]. We just let
                  * system administrator figure this out...
                  */
-# if defined(OPENSSL_SYS_VXWORKS)
+# if defined(OPENSSL_SYS_VXWORKS) || defined(__vita__)
                 /* h_errno doesn't exist on VxWorks */
                 SYSerr(SYS_F_GETHOSTBYNAME, 1000 );
 # else

@@ -369,6 +369,11 @@ static ssize_t syscall_random(void *buf, size_t buflen)
      * Note: Sometimes getentropy() can be provided but not implemented
      * internally. So we need to check errno for ENOSYS
      */
+#  if defined(__vita__)
+#include <psp2/kernel/rng.h>    
+    sceKernelGetRandomNumber((void *)buf, buflen);
+    return (ssize_t)buflen;
+#  endif
 #  if defined(__GNUC__) && __GNUC__>=2 && defined(__ELF__) && !defined(__hpux)
     extern int getentropy(void *buffer, size_t length) __attribute__((weak));
 
