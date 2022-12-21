@@ -186,6 +186,9 @@ int OPENSSL_init_ssl(uint64_t opts, const OPENSSL_INIT_SETTINGS * settings)
     if ((opts & OPENSSL_INIT_NO_LOAD_CONFIG) == 0)
         opts |= OPENSSL_INIT_LOAD_CONFIG;
 #endif
+#ifdef __PS4__
+    opts |= OPENSSL_INIT_NO_ATEXIT;
+#endif
 
     if (!OPENSSL_init_crypto(opts, settings))
         return 0;

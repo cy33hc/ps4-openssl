@@ -73,12 +73,14 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #   include <inet.h>
 #  else
 #   include <sys/socket.h>
+#ifndef __PS4__
 #   ifndef NO_SYS_UN_H
 #    include <sys/un.h>
 #    ifndef UNIX_PATH_MAX
 #     define UNIX_PATH_MAX sizeof(((struct sockaddr_un *)NULL)->sun_path)
 #    endif
 #   endif
+#endif
 #   ifdef FILIO_H
 #    include <sys/filio.h> /* FIONBIO in some SVR4, e.g. unixware, solaris */
 #   endif
@@ -92,7 +94,9 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  endif
 
 #  ifndef VMS
+#ifndef __PS4__
 #   include <sys/ioctl.h>
+#endif
 #  else
 #   if !defined(TCPIP_TYPE_SOCKETSHR) && defined(__VMS_VER) && (__VMS_VER > 70000000)
      /* ioctl is only in VMS > 7.0 and when socketshr is not used */
@@ -147,6 +151,11 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  define closesocket(s)              close(s)
 #  define readsocket(s,b,n)           read((s),(b),(n))
 #  define writesocket(s,b,n)          write((s),(char *)(b),(n))
+# elif defined(__PS4__)
+#  define ioctlsocket(a,b,c)      setsockopt((a),SOL_SOCKET,(b),(c),sizeof(*(c)))
+#  define closesocket(s)          close(s)
+#  define readsocket(s,b,n)       recv((s),(char*)(b),(n),0)
+#  define writesocket(s,b,n)      send((s),(char*)(b),(n),0)
 # else
 #  define ioctlsocket(a,b,c)      ioctl(a,b,c)
 #  define closesocket(s)          close(s)

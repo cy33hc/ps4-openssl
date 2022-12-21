@@ -26,7 +26,7 @@
 #  include <sys/utsname.h>
 # endif
 #endif
-#if (defined(__FreeBSD__) || defined(__NetBSD__)) && !defined(OPENSSL_SYS_UEFI)
+#if (defined(__FreeBSD__) || defined(__NetBSD__)) && !defined(OPENSSL_SYS_UEFI) && !defined(__PS4__)
 # include <sys/types.h>
 # include <sys/sysctl.h>
 # include <sys/param.h>
