@@ -8,8 +8,7 @@
    chmod guo+x /opt/pacbrew/ps4/openorbis/ps4vars.sh
    source /opt/pacbrew/ps4/openorbis/ps4vars.sh
    git checkout OpenSSL_1_1_1-ps4
-   mkdir build; cd build
-   openorbis-cmake -DCMAKE_INSTALL_PREFIX=$OPENORBIS/usr ..
+   ./Configure --prefix=/opt/pacbrew/ps4/openorbis/usr ps4-cross
    make
    make install
 ```
