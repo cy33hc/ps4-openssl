@@ -73,12 +73,14 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #   include <inet.h>
 #  else
 #   include <sys/socket.h>
+#ifndef __SWITCH__
 #   ifndef NO_SYS_UN_H
 #    include <sys/un.h>
 #    ifndef UNIX_PATH_MAX
 #     define UNIX_PATH_MAX sizeof(((struct sockaddr_un *)NULL)->sun_path)
 #    endif
 #   endif
+#endif
 #   ifdef FILIO_H
 #    include <sys/filio.h> /* FIONBIO in some SVR4, e.g. unixware, solaris */
 #   endif
@@ -147,6 +149,11 @@ struct servent *PASCAL getservbyname(const char *, const char *);
 #  define closesocket(s)              close(s)
 #  define readsocket(s,b,n)           read((s),(b),(n))
 #  define writesocket(s,b,n)          write((s),(char *)(b),(n))
+# elif defined(__SWITCH__)
+#  define ioctlsocket(a,b,c)      setsockopt((a),SOL_SOCKET,(b),(c),sizeof(*(c)))
+#  define closesocket(s)          close(s)
+#  define readsocket(s,b,n)       recv((s),(char*)(b),(n),0)
+#  define writesocket(s,b,n)      send((s),(char*)(b),(n),0)
 # else
 #  define ioctlsocket(a,b,c)      ioctl(a,b,c)
 #  define closesocket(s)          close(s)

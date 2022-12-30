@@ -180,6 +180,8 @@ cscope.*
 *.d
 *.d.tmp
 pod2htmd.tmp
+.project
+.classpath
 
 # Windows manifest files
 *.manifest
